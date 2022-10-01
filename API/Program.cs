@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using API.Extensions;
 
 internal class Program
 {
@@ -14,20 +15,7 @@ internal class Program
             .Build();
 
         // Add services to the container.
-        builder.Services.AddControllers();
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddDbContext<DataContext>(opt =>
-        {
-            opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
-        });
-        builder.Services.AddCors(opt =>
-        {
-            opt.AddPolicy("CorsPolicy", policy =>
-            {
-                policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
-            });
-        });
+        builder.Services.AddApplicationServices(config);
 
         var app = builder.Build();
 
