@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using API.Extensions;
+using API.Middleware;
 
 internal class Program
 {
@@ -33,6 +34,8 @@ internal class Program
             var logger = services.GetRequiredService<ILogger<Program>>();
             logger.LogError(ex, "DB migration problem.");
         }
+
+        app.UseMiddleware<ExceptionMiddleware>();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())

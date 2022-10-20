@@ -3,6 +3,8 @@ using Application.Core;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace API.Extensions
 {
@@ -12,7 +14,10 @@ namespace API.Extensions
             this IServiceCollection services,
             IConfiguration config)
         {
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(config =>
+            {
+                config.RegisterValidatorsFromAssemblyContaining<Create>();
+            });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddDbContext<DataContext>(opt =>
@@ -28,7 +33,7 @@ namespace API.Extensions
             });
             services.AddMediatR(typeof(List.Handler).Assembly);
             services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-            
+
             return services;
         }
     }
