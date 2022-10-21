@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { request } from 'http';
 import { toast } from 'react-toastify';
 import { history } from '../..';
 import { Activity } from '../models/activity';
@@ -16,7 +15,7 @@ axios.interceptors.response.use(async response => {
     await sleep(1000);
     return response;
 }, (error: AxiosError) => {
-    const { data, status } = error.response!;
+    const { status } = error.response!;
     switch (status) {
         case 400:
             toast.error('bad-request');
